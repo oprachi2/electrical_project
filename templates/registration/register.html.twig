@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="jumbotron-img jumbotron jumbotron-fluid">
+
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+<div class="container ">
+        <h1 class="display-3">Register</h1>
+        </div>
+    </div>
+<div class="row justify-content-center" >
+
+    <div class="form login-form text-center">
+                   
+                    
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email, {attr: {class: 'form-control', placeholder:'Enter your Email'}}) }}
+       
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password',attr: {class: 'form-control', placeholder:'Enter your Email'}
+        }) }}
+       
+        
+        
+        {{ form_row(registrationForm.agreeTerms) }}
+        
+        
+        
+        
+
+        <button class="btn btn-lg btn-primary" type="submit">
+        Register
+    </button>
+     </div>
+    {{ form_end(registrationForm) }}
+    </div>
+    </div>
+        </div>
+    
+{% endblock %}
