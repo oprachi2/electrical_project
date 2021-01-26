@@ -96,7 +96,7 @@ class ProductCrudController extends AbstractCrudController
         return [
             
             AssociationField::new('category'),
-            AssociationField::new('managed_by'),
+            AssociationField::new('managed_by')->hideOnForm(),
             TextField::new('name'),
             TextField::new('description')->hideOnIndex(),
             TextField::new('extra_features')->hideOnIndex(),
@@ -236,9 +236,6 @@ class ProductCrudController extends AbstractCrudController
                     if(!empty($cat)){
                         $newPost->setCategory($cat);
                     }
-                    // if(!empty($cat1)){
-                    //     $newPost->setManagedBy($cat1);
-                    // }
                     $newPost->setManagedBy($this->getUser());
                     $newPost->setCreatedAt(new \DateTime());
                     $newPost->setUpdatedAt(new \DateTime());
@@ -299,7 +296,6 @@ public function export_data(): JsonResponse
         'status'=> 'publish'
     ]);
     $data = [];
-
     foreach ($Product as $Products) {
         $data[] = [
                 'id' => $Products->getId(),
@@ -323,6 +319,37 @@ public function export_data(): JsonResponse
                 'status' => $Products->getStatus()
         ];
     }
+
+    return new JsonResponse($data, Response::HTTP_OK);
+}
+/**
+ * @Route("/productsfinder/{id}", name="get_one_product", methods={"GET"})
+ */
+public function productsfinder($id): JsonResponse
+{
+    $Products = $this->ProductRepository->findOneBy(['id'=> $id]);
+
+    $data = [
+                'id' => $Products->getId(),
+                'name' => $Products->getName(),
+                'brand' => $Products->getBrand(),
+                'color' => $Products->getColor(),
+                'extra_features' => $Products->getExtraFeatures(),
+                'power_supply' => $Products->getPowerSupply(),
+                'ratings' => $Products->getRatings(),
+                'image' => $Products->getImage(),
+                'description' => $Products->getDescription(),
+                'modle_number' => $Products->getModelNumber(),
+                'qt_in_stock' => $Products->getQtInStock(),
+                'market_price' => $Products->getMarketPrice(),
+                'warranty' => $Products->getWarranty(),
+                'unit_weight' => $Products->getUnitWeight(),
+                'voltage' => $Products->getVoltage(),
+                'availability' => $Products->getAvailability(),
+                'created_at' => $Products->getCreatedAt(),
+                'updated_at' => $Products->getUpdatedAt(),
+                'status' => $Products->getStatus()
+    ];
 
     return new JsonResponse($data, Response::HTTP_OK);
 }

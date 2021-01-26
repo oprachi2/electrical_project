@@ -41,4 +41,4 @@ security:
          - { path: ^/home, roles: IS_AUTHENTICATED_ANONYMOUSLY}
          - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }
          - { path: ^/api_all_product, roles: ROLE_ADMIN } 
-         
+         - { path: ^/productsfinder,roles: IS_AUTHENTICATED_ANONYMOUSLY }

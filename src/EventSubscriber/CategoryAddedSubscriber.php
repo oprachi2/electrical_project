@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 
 use App\Entity\Category;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
@@ -36,6 +37,17 @@ class CategoryAddedSubscriber implements EventSubscriberInterface
             ->html('<p>You are Assigned to <b>'.$cat_name.'<b> category</p>');
             $this->mailer->send($email);  
           }
+        else if($entity instanceof User)
+        {
+            $userName=$entity->getEmail();
+            $email = (new Email())
+            ->from('random162128@gmail.com')
+            ->to($userName)
+            ->subject('Thank you for Registration')
+            ->text('<p>As Per the Policies of our Website please <b>Change Your Passwoord</b> As Soon as Possible please click on the Reset Password Link and Enter Your Email id. To Reset Password click on <a href="http://localhost:8000/reset-password">Click here</a></p>')
+            ->html('<p>As Per the Policies of our Website please <b>Change Your Passwoord</b> As Soon as Possible please click on the Reset Password Link and Enter Your Email id. To Reset Password click on <a href="http://localhost:8000/reset-password">Click here</a></p>');
+            $this->mailer->send($email);
+        }
     }
 
     public static function getSubscribedEvents()

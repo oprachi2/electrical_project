@@ -31,6 +31,7 @@
             
              $entity->setCreatedAt(new \DateTime());
              $entity->setUpdatedAt(new \DateTime());
+             $entity->setManagedBy($this->security->getUser());
              
             
              

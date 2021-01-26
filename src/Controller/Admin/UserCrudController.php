@@ -8,7 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -30,9 +31,9 @@ class UserCrudController extends AbstractCrudController
             
             
             EmailField::new('email'),
-            // PasswordType::new('password'),
-             ArrayField::new('roles'),
-             BooleanField::new ('is_verified')
+            TextField::new('password')->hideOnIndex(),
+            ArrayField::new('roles'),
+            BooleanField::new ('is_verified')
         ];
     }
     

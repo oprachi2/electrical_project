@@ -52,12 +52,12 @@
 
                         <li><a style="
     color: white;
-" href="{{ path('admin') }}">Admin Panel</a></li>
+" href="{{ path('admin') }}">Go To Dashboard</a></li>
                         {% elseif is_granted('ROLE_MANAGER') %}
                         <li>HELLO MANAGER!!!</li>
                         <li><a style="
     color: white;
-" href="{{ path('admin') }}">Manager Panel</a></li>
+" href="{{ path('admin') }}">Go To Dashboard</a></li>
                         {% else %}
                        
 {% endif %}
