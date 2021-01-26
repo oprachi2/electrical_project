@@ -38,6 +38,7 @@ class CategoryCrudController extends AbstractCrudController
         {
     
             return $actions
+                ->disable(Action::DELETE)
                  ->setPermission(Action::DELETE, 'ROLE_ADMIN')
                  ->setPermission(Action::EDIT, 'ROLE_ADMIN')
                  ->setPermission(Action::NEW, 'ROLE_ADMIN');

@@ -29,6 +29,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+ 
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -55,10 +57,14 @@ class ProductCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $importPostButton = Action::new('importPost', 'Import')->setCssClass('btn btn-default')->createAsGlobalAction()->linkToCrudAction('importPost');
+        $exportPostButton1 = Action::new('exportPost1', 'Export')->setCssClass('btn btn-default')->createAsGlobalAction()->linkToCrudAction('export_data');
+        $exportPostButton = Action::new('exportPost', 'Download export')->setCssClass('btn btn-default')->createAsGlobalAction()->linkToCrudAction('exportPost');
         if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_MANAGER')) {
            
             return $actions 
             ->add(Crud::PAGE_INDEX, $importPostButton)
+            ->add(Crud::PAGE_INDEX, $exportPostButton)
+            ->add(Crud::PAGE_INDEX, $exportPostButton1)
             ->add(CRUD::PAGE_INDEX,'detail');
                 
                 // ...
@@ -72,8 +78,17 @@ class ProductCrudController extends AbstractCrudController
             ->add(CRUD::PAGE_INDEX,'detail');
         }
        
-                     
     }
+    public function configureCrud(Crud $crud): Crud{
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_MANAGER')) {
+        
+            return $crud
+               
+                
+                
+            ;
+        }
+        }
 
     public function configureFields(string $pageName): iterable
     {
@@ -89,7 +104,6 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('brand'),
             TextField::new('power_supply')->hideOnIndex(),
             TextField::new('model_number'),
-            
             ImageField::new('image')->setLabel('Image')->setBasePath($uploadPath['uploads']['url_prefix'])->setUploadDir($uploadPath['uploads']['url_path'])->setRequired(false),
             ChoiceField::new('ratings')->setChoices([
                //'Select' => null,
@@ -132,36 +146,100 @@ class ProductCrudController extends AbstractCrudController
                 foreach ($postData as $postItem) {
                     $newPost = new Product();
                     $cat= $this->CategoryRepository->find($postItem->category_id);
-                    $cat1= $this->UserRepository->find($postItem->managed_by_id);
-                    $newPost->setName($postItem->name);
-                    $newPost->setDescription($postItem->description);
-                    $newPost->setExtraFeatures($postItem->extra_features);
-                    $newPost->setColor($postItem->color);
-                    $newPost->setBrand($postItem->brand);
-                    $newPost->setPowerSupply($postItem->power_supply);
+                    //$cat1= $this->UserRepository->find($postItem->managed_by_id);
+                    try{
+                        $newPost->setName($postItem->name);
+                        } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the name');
+                        }
+                    
+    
+                    try{
+                        $newPost->setDescription($postItem->description);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the description');
+                        }
+                    try{
+                        $newPost->setExtraFeatures($postItem->extra_features);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Extra Features');
+                        }
+                    try{
+                        $newPost->setColor($postItem->color);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Color');
+                        }
+                    try{
+                        $newPost->setBrand($postItem->brand);
+                        } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the brand');
+                        }
+                    try{
+                        $newPost->setPowerSupply($postItem->power_supply);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Power Supply');
+                        }
                     //$newPost->setCreatedAt($postItem->created_at);
                     //$newPost->setUpdatedAt($postItem->updated_at);
                     //$newPost->setManagedBy($postItem->managed_by);
-                    $newPost->setModelNumber($postItem->model_number);
+                    try{
+                        $newPost->setModelNumber($postItem->model_number);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Model Number');
+                        }
                     $url = $postItem->image;
                     // Image path
                     $fname=basename($postItem->image);
                     $img = 'uploads/images/'.$fname.'';
                     file_put_contents($img, file_get_contents($url));
-                    $newPost->setImage($fname);
-                    $newPost->setRatings($postItem->ratings);
-                    $newPost->setQtInStock($postItem->qt_in_stock);
-                    $newPost->setMarketPrice($postItem->market_price);
-                    $newPost->setWarranty($postItem->warranty);
-                    $newPost->setUnitWeight($postItem->unit_weight);
-                    $newPost->setVoltage($postItem->voltage);
-                    $newPost->setAvailability($postItem->availability);
+                    try{$newPost->setImage($fname);
+                    }
+                    catch(\Exception $e)
+                    {
+                        $this->addFlash('error','Cant find the Image');
+                    }
+                    try{
+                        $newPost->setRatings($postItem->ratings);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Rating');
+                        }
+                    try{
+                        $newPost->setQtInStock($postItem->qt_in_stock);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Stock ');
+                        }
+                    try{
+                        $newPost->setMarketPrice($postItem->market_price);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Price');
+                        }
+                    try{
+                        $newPost->setWarranty($postItem->warranty);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Warranty');
+                        }
+                    try{
+                        $newPost->setUnitWeight($postItem->unit_weight);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Unit Weight');
+                        }
+                    try{
+                        $newPost->setVoltage($postItem->voltage);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Voltage');
+                        }
+                    try{
+                        $newPost->setAvailability($postItem->availability);
+                    } catch(\Exception $e){
+                            $this->addFlash('error','Cant find the Availability');
+                        }
                     if(!empty($cat)){
                         $newPost->setCategory($cat);
                     }
-                    if(!empty($cat1)){
-                        $newPost->setManagedBy($cat1);
-                    }
+                    // if(!empty($cat1)){
+                    //     $newPost->setManagedBy($cat1);
+                    // }
+                    $newPost->setManagedBy($this->getUser());
                     $newPost->setCreatedAt(new \DateTime());
                     $newPost->setUpdatedAt(new \DateTime());
                     $newPost->setStatus('new');
@@ -185,10 +263,37 @@ class ProductCrudController extends AbstractCrudController
             'form' => $form->createView()
         ]);
     }
+    public function exportPost()
+    {
+        try{
+            $post = $this->ProductRepository->findDownloadableData();
+            $filename = sprintf("%s_%s.json", 'EXPORT_FILE_POST',microtime(true));
+            if(empty($post)){
+                $this->addFlash('error', "There are no Products available in the list.");
+            }else{
+                $response = new Response(json_encode($post));
+                $disposition = HeaderUtils::makeDisposition(
+                    HeaderUtils::DISPOSITION_ATTACHMENT,
+                    $filename
+                    
+                );
+
+                $response->headers->set('Content-Disposition', $disposition);
+                $this->logger->info('Data exported', $post);
+
+                return $response;
+            }
+        } catch (\Exception $e) {
+            $this->addFlash('error', "Something Wrong! Try to find the perfect exception. ");
+            $this->logger->error('Unable to export data correctly.');
+        }
+
+        return $this->redirect($this->adminUrlGenerator->setController(ProductCrudController::class)->setAction(Action::INDEX)->generateUrl());
+    }
 /**
- * @Route("/api_all_product", name="get_all_Product", methods={"GET"})
+ * @Route("/export_data", name="get_all_Product", methods={"GET"})
  */
-public function getAll(): JsonResponse
+public function export_data(): JsonResponse
 {
     $Product = $this->ProductRepository->findBy([
         'status'=> 'publish'

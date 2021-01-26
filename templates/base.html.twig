@@ -28,7 +28,9 @@
 
 <body>
 <div class="section">
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="
+    background-color: #1c2248;
+">
 <div class="container-fluid">
 <div class="navbar-header">
 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -38,7 +40,9 @@
 <span class="icon-bar"></span>
 </button>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<a class="navbar-brand" href="{{ path('home') }}">{{project_name}}</a>
+<a style="
+    color: white;
+" class="navbar-brand" href="{{ path('home') }}">{{project_name}}</a>
 
                     </div>
 </div>
@@ -46,30 +50,39 @@
                     <ul class="nav navbar-nav">
                         {% if is_granted('ROLE_ADMIN') %}
 
-                        <li><a href="{{ path('admin') }}">Admin Panel</a></li>
-                        <li><a href="{{ path('get_all_Product') }}">Export Products</a></li>
+                        <li><a style="
+    color: white;
+" href="{{ path('admin') }}">Admin Panel</a></li>
                         {% elseif is_granted('ROLE_MANAGER') %}
                         <li>HELLO MANAGER!!!</li>
-                        <li><a href="{{ path('admin') }}">Manager Panel</a></li>
+                        <li><a style="
+    color: white;
+" href="{{ path('admin') }}">Manager Panel</a></li>
                         {% else %}
                        
 {% endif %}
 </ul>
 <ul class="nav navbar-nav navbar-right">
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-<li><a href="{{ path('app_logout') }}">Logout</a></li>
+<li><a style="
+    color: white;
+" href="{{ path('app_logout') }}">Logout</a></li>
 {% else %}
-<li><a href="{{ path('app_register') }}">Signup</a></li>
-<li><a href="{{ path('app_login') }}">Login</a></li>
+<li><a style="
+    color: white;
+" href="{{ path('app_register') }}">Signup</a></li>
+<li><a style="
+    color: white;
+" href="{{ path('app_login') }}">Login</a></li>
 {% endif %}
 </ul>
 </div>
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
 {% block front_nav_right_section %}{% endblock %}
 </div>
 </div>
 </nav>
-<div class="container">
+<div class="container" >
             {% block body %}{% endblock %}
 </div>
 <footer>

@@ -18,6 +18,20 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+    
+    /**
+     * @return array Returns an array
+     */
+
+    public function findDownloadableData()
+    {
+        return $this->createQueryBuilder('p')
+           ->andWhere('p.status = :status')
+           ->setParameter('status', 'publish')
+           ->getQuery()
+           ->getArrayResult()
+           ;
+    }
 
     // /**
     //  * @return Product[] Returns an array of Product objects

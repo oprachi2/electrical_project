@@ -4,34 +4,51 @@
 {% block front_nav_right_section %}{% endblock %}
 
 {% block body %}
-<div class="container">
-<section class="container">  
-  <div class="slideshow_wrapper">  
-    <div class="slideshow">      
-      <div class="slide_one slide">
-		<img src="https://image.shutterstock.com/image-illustration/set-small-kitchen-home-appliances-260nw-1128456290.jpg" />
-      <div class="caption">
-        <h1>WORLD</h1>
-      </div>
-      </div>
-      
-      <div class="slide_two slide">
-<img src="https://www.lampsplus.com/images/landing-pages/table-lamps/1-splash-mobile-Table-Lamps.jpg" />
-      <div class="caption">
-        <h1>FULL OF</h1>
-      </div>
-      </div>
-      
-      <div class="slide_three slide">
-<img src="https://media.istockphoto.com/photos/kitchen-appliances-blender-toaster-coffee-machine-meat-ginde-picture-id508545404?k=6&m=508545404&s=612x612&w=0&h=_61av3m9Ib4TGJNS9jMsCy7u-BFHIrIiDIjeMzOgRYo=" />      
-      <div class="caption">
-        <h1> ELECTRICAL APPLIANCES</h1>
-      </div>
-      </div>    
-    </div>   
-  </div>
-</section>  
-    <div class="row">
+<div id="container">
+  
+            <br/><br/>
+            <div class="slider">
+                <div id="slider-inner" class="vertical"> <!-- To make the slider vertical add the class attribute with vertical i.e. class="vertical" in this div tag -->
+                    <div class="slide-box first">
+                        <img id="pic1" src="/uploads/images/p1.jpg">
+                        <div class="text-overlay">
+                           
+                            <h3></h3>
+                        </div>
+                    </div>
+                    <div class="slide-box other">
+                        <img id="pic2" src="/uploads/images/p2.jpg">
+                        <div class="text-overlay">
+                           
+                            <h3></h3>
+                        </div>
+                    </div>
+                    <div class="slide-box other">
+                        <img id="pic3" src="/uploads/images/p3.png">
+                        <div class="text-overlay">
+                           
+                            <h3></h3>
+                        </div>
+                    </div>
+                    <div class="slide-box other">
+                        <img id="pic4" src="/uploads/images/p4.jpg">
+                        <div class="text-overlay">
+                           
+                            <h3></h3>
+                        </div>
+                    </div>
+                    <div class="slide-box other">
+                        <img id="pic5" src="/uploads/images/p5.jpg">
+                        <div class="text-overlay">
+                           
+                            <h3></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="pause-overlay"></div>
+            
+        </div>
+ <div class="row" style="margin-top:30px">
         <div class="row">
             {% for product in products %}
                 <div class="col-md-6">
